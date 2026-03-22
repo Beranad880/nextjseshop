@@ -1,6 +1,7 @@
 import dbConnect from "@/lib/mongodb";
 import Product from "@/models/Product";
 import AddToCartButton from "@/components/AddToCartButton";
+import Link from "next/link";
 
 export const dynamic = "force-dynamic";
 
@@ -47,30 +48,29 @@ export default async function Home() {
                 className={`group flex flex-col h-full animate-fade-in-up ${staggerClass}`}
               >
                 {/* Image Container */}
-                <div className="relative aspect-[4/5] overflow-hidden bg-gray-50 rounded-2xl border border-gray-100 transition-all duration-700 group-hover:shadow-2xl group-hover:shadow-black/5 group-hover:-translate-y-2">
-                  <img
-                    src={p.image}
-                    alt={p.name}
-                    className="h-full w-full object-cover transition-transform duration-1000 group-hover:scale-110"
-                  />
-                  <div className="absolute inset-0 bg-black/0 group-hover:bg-black/5 transition-colors duration-500" />
-                  
-                  {/* Quick Add Overlay (Optional improvement) */}
-                  <div className="absolute bottom-4 left-4 right-4 translate-y-8 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500">
-                    <AddToCartButton product={p} />
+                <Link href={`/product/${p._id}`} className="block">
+                  <div className="relative aspect-[4/5] overflow-hidden bg-gray-50 rounded-2xl border border-gray-100 transition-all duration-700 group-hover:shadow-2xl group-hover:shadow-black/5 group-hover:-translate-y-2">
+                    <img
+                      src={p.image}
+                      alt={p.name}
+                      className="h-full w-full object-cover transition-transform duration-1000 group-hover:scale-110"
+                    />
+                    <div className="absolute inset-0 bg-black/0 group-hover:bg-black/5 transition-colors duration-500" />
                   </div>
-                </div>
+                </Link>
 
                 {/* Content */}
                 <div className="mt-6 space-y-2 flex-grow">
                   <div className="flex justify-between items-start gap-4">
-                    <div>
+                    <div className="min-w-0">
                       <p className="text-[10px] font-black text-gray-400 uppercase tracking-[0.2em] mb-1">
                         {product.category || "Kolekce"}
                       </p>
-                      <h3 className="text-base font-bold text-black tracking-tight group-hover:text-blue-600 transition-colors duration-300">
-                        {p.name}
-                      </h3>
+                      <Link href={`/product/${p._id}`}>
+                        <h3 className="text-base font-bold text-black tracking-tight group-hover:text-blue-600 transition-colors duration-300 truncate">
+                          {p.name}
+                        </h3>
+                      </Link>
                     </div>
                     <p className="text-base font-black text-black whitespace-nowrap">
                       {fmt(p.price)}
@@ -79,6 +79,10 @@ export default async function Home() {
                   <p className="text-sm text-gray-500 line-clamp-2 leading-relaxed font-medium">
                     {product.description}
                   </p>
+                </div>
+
+                <div className="mt-6">
+                  <AddToCartButton product={p} />
                 </div>
               </div>
             );

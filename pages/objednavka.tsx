@@ -1,9 +1,8 @@
-"use client";
-
 import { useState, useEffect } from "react";
 import { useCart } from "@/lib/cartContext";
 import Link from "next/link";
 import { ArrowLeft, Loader2, ShoppingBag } from "lucide-react";
+import Head from "next/head";
 
 const fmt = (price: number) => price.toLocaleString("cs-CZ") + "\u00a0Kč";
 
@@ -63,7 +62,11 @@ export default function CheckoutPage() {
   // Success screen
   if (done) {
     return (
-      <div className="max-w-lg mx-auto py-24 text-center space-y-8">
+      <>
+        <Head>
+          <title>Objednávka přijata | Internetový obchod</title>
+        </Head>
+        <div className="max-w-lg mx-auto py-24 text-center space-y-8">
         <div className="w-20 h-20 rounded-full bg-green-50 flex items-center justify-center mx-auto">
           <svg className="w-10 h-10 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
             <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
@@ -84,12 +87,17 @@ export default function CheckoutPage() {
           Zpět do obchodu
         </Link>
       </div>
+      </>
     );
   }
 
   // Empty cart guard (after hydration)
   if (mounted && items.length === 0) {
     return (
+      <>
+      <Head>
+        <title>Košík je prázdný | Internetový obchod</title>
+      </Head>
       <div className="max-w-lg mx-auto py-24 text-center space-y-6">
         <ShoppingBag className="w-14 h-14 text-gray-200 mx-auto" />
         <p className="text-sm font-black uppercase tracking-widest text-gray-400">Košík je prázdný</p>
@@ -100,6 +108,7 @@ export default function CheckoutPage() {
           Prohlédnout katalog
         </Link>
       </div>
+      </>
     );
   }
 
@@ -107,6 +116,10 @@ export default function CheckoutPage() {
   const itemCount = items.reduce((s, i) => s + i.quantity, 0);
 
   return (
+    <>
+    <Head>
+      <title>Objednávka | Internetový obchod</title>
+    </Head>
     <div className="space-y-10 pb-20">
       {/* Page title */}
       <div className="space-y-4 border-b border-gray-100 pb-8">
@@ -218,5 +231,6 @@ export default function CheckoutPage() {
         </aside>
       </div>
     </div>
+    </>
   );
 }

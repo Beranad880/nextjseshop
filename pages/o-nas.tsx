@@ -1,9 +1,5 @@
 import { ShoppingBag, Package, Truck, HeartHandshake } from "lucide-react";
-
-export const metadata = {
-  title: "O nás | Internetový obchod",
-  description: "Kdo jsme a co nás pohání",
-};
+import Head from "next/head";
 
 const values = [
   {
@@ -31,7 +27,12 @@ const team = [
 
 export default function AboutPage() {
   return (
-    <div className="space-y-24 pb-20">
+    <>
+      <Head>
+        <title>O nás | Internetový obchod</title>
+        <meta name="description" content="Kdo jsme a co nás pohání" />
+      </Head>
+      <div className="space-y-24 pb-20">
       {/* Hero */}
       <section className="border-b border-gray-100 pb-16 space-y-6">
         <p className="text-[11px] font-black uppercase tracking-[0.3em] text-gray-400">O nás</p>
@@ -114,5 +115,6 @@ export default function AboutPage() {
         ))}
       </section>
     </div>
+    </>
   );
 }
