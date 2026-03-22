@@ -1,0 +1,18 @@
+import { NextResponse } from 'next/server';
+import dbConnect from '@/lib/mongodb';
+import Order from '@/models/Order';
+
+type Context = { params: Promise<{ id: string }> };
+
+export async function PATCH(request: Request, { params }: Context) {
+  const { id } = await params;
+  try {
+    await dbConnect();
+    const { status } = await request.json();
+    const order = await Order.findByIdAndUpdate(id, { status }, { new: true });
+    if (!order) return NextResponse.json({ error: 'Objednávka nenalezena' }, { status: 404 });
+    return NextResponse.json(order);
+  } catch (error) {
+    return NextResponse.json({ error: (error as Error).message }, { status: 400 });
+  }
+}
