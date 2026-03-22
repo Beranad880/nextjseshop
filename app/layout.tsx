@@ -41,6 +41,10 @@ export default function RootLayout({
                     Katalog
                     <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-blue-600 transition-all duration-300 group-hover:w-full" />
                   </Link>
+                  <Link href="/o-nas" className="hover:text-blue-600 transition-colors relative group">
+                    O nás
+                    <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-blue-600 transition-all duration-300 group-hover:w-full" />
+                  </Link>
                 </nav>
 
                 <div className="h-6 w-px bg-gray-200 hidden sm:block mx-2" />
