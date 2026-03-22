@@ -2,19 +2,12 @@ import dbConnect from "@/lib/mongodb";
 import Order from "@/models/Order";
 import type { OrderStatus } from "@/models/Order";
 import OrderStatusSelect from "@/components/OrderStatusSelect";
+import DeleteOrderButton from "@/components/DeleteOrderButton";
 import { ClipboardList } from "lucide-react";
 
 export const dynamic = "force-dynamic";
 
 const fmt = (price: number) => price.toLocaleString("cs-CZ") + "\u00a0Kč";
-
-const STATUS_LABEL: Record<OrderStatus, string> = {
-  nova: "Nová",
-  potvrzena: "Potvrzená",
-  odeslana: "Odeslaná",
-  dorucena: "Doručená",
-  zrusena: "Zrušená",
-};
 
 export default async function AdminOrdersPage() {
   await dbConnect();
@@ -46,12 +39,13 @@ export default async function AdminOrdersPage() {
                 <th className="px-6 py-4">Celkem</th>
                 <th className="px-6 py-4">Datum</th>
                 <th className="px-6 py-4">Stav</th>
+                <th className="px-6 py-4"></th>
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-100">
               {orders.length === 0 ? (
                 <tr>
-                  <td colSpan={6} className="px-6 py-20 text-center">
+                  <td colSpan={7} className="px-6 py-20 text-center">
                     <p className="text-gray-400 font-bold uppercase tracking-widest text-xs">Žádné objednávky</p>
                   </td>
                 </tr>
@@ -87,6 +81,9 @@ export default async function AdminOrdersPage() {
                       <td className="px-6 py-4 text-xs text-gray-500 font-medium whitespace-nowrap">{date}</td>
                       <td className="px-6 py-4">
                         <OrderStatusSelect id={id} status={order.status as OrderStatus} />
+                      </td>
+                      <td className="px-2 py-4">
+                        <DeleteOrderButton id={id} />
                       </td>
                     </tr>
                   );

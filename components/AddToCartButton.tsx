@@ -11,31 +11,48 @@ interface Props {
 export default function AddToCartButton({ product }: Props) {
   const { addItem } = useCart();
   const [added, setAdded] = useState(false);
+  const [isHovered, setIsHovered] = useState(false);
 
-  const handleClick = () => {
-    addItem({ productId: product._id, name: product.name, price: product.price, image: product.image });
+  const handleClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    addItem({ 
+      productId: product._id, 
+      name: product.name, 
+      price: product.price, 
+      image: product.image 
+    });
     setAdded(true);
-    setTimeout(() => setAdded(false), 1400);
+    setTimeout(() => setAdded(false), 2000);
   };
 
   return (
     <button
       onClick={handleClick}
-      className={`w-full py-2.5 text-xs font-black uppercase tracking-widest transition-all duration-200 flex items-center justify-center gap-2 ${
-        added ? "bg-green-600 text-white" : "bg-black text-white hover:bg-gray-800"
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+      className={`relative w-full py-3 px-6 rounded-xl text-[11px] font-black uppercase tracking-[0.15em] transition-all duration-300 transform active:scale-95 shadow-lg overflow-hidden flex items-center justify-center gap-2 group ${
+        added 
+          ? "bg-green-500 text-white shadow-green-200" 
+          : "bg-white text-black hover:bg-black hover:text-white shadow-black/5"
       }`}
     >
-      {added ? (
-        <>
-          <Check className="w-3.5 h-3.5" />
-          Přidáno
-        </>
-      ) : (
-        <>
-          <ShoppingCart className="w-3.5 h-3.5" />
-          Do košíku
-        </>
-      )}
+      <span className="relative z-10 flex items-center gap-2">
+        {added ? (
+          <>
+            <Check className={`w-4 h-4 transition-transform duration-500 scale-110`} />
+            <span>V košíku</span>
+          </>
+        ) : (
+          <>
+            <ShoppingCart className={`w-4 h-4 transition-transform duration-500 ${isHovered ? 'scale-110 -rotate-12' : ''}`} />
+            <span>Do košíku</span>
+          </>
+        )}
+      </span>
+      
+      {/* Animated Shine Effect */}
+      <div className={`absolute top-0 -left-[100%] w-full h-full bg-gradient-to-r from-transparent via-white/20 to-transparent transition-all duration-1000 group-hover:left-[100%] pointer-events-none`} />
     </button>
   );
 }

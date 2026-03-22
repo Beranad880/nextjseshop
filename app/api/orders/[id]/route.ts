@@ -16,3 +16,11 @@ export async function PATCH(request: Request, { params }: Context) {
     return NextResponse.json({ error: (error as Error).message }, { status: 400 });
   }
 }
+
+export async function DELETE(_request: Request, { params }: Context) {
+  const { id } = await params;
+  await dbConnect();
+  const order = await Order.findByIdAndDelete(id);
+  if (!order) return NextResponse.json({ error: 'Objednávka nenalezena' }, { status: 404 });
+  return NextResponse.json({ message: 'Objednávka smazána' });
+}

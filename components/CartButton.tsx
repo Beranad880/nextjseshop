@@ -8,12 +8,12 @@ export default function CartButton() {
   return (
     <button
       onClick={openCart}
-      className="relative p-2 hover:bg-gray-100 transition-colors rounded"
+      className="relative p-3 hover:bg-black hover:text-white transition-all duration-300 rounded-xl group border border-transparent hover:border-black/10 active:scale-90"
       aria-label="Otevřít košík"
     >
-      <ShoppingCart className="w-5 h-5" />
+      <ShoppingCart className="w-5 h-5 transition-transform duration-500 group-hover:-rotate-12" />
       {count > 0 && (
-        <span className="absolute -top-0.5 -right-0.5 min-w-[18px] h-[18px] bg-black text-white text-[10px] font-black flex items-center justify-center rounded-full px-0.5">
+        <span className="absolute top-1 right-1 min-w-[20px] h-[20px] bg-blue-600 text-white text-[9px] font-black flex items-center justify-center rounded-full px-1 border-2 border-white group-hover:bg-white group-hover:text-black transition-colors duration-300">
           {count > 99 ? "99+" : count}
         </span>
       )}
