@@ -23,7 +23,12 @@ async function dbConnect() {
     };
 
     cached.promise = mongoose.connect(MONGODB_URI, opts).then((mongoose) => {
+      console.log("✅ MongoDB connected successfully to:", MONGODB_URI.split('@').pop());
       return mongoose;
+    }).catch((err) => {
+      console.error("❌ MongoDB connection error:", err.message);
+      console.error("👉 Make sure your MONGODB_URI in .env.local is correct and your database is accessible.");
+      throw err;
     });
   }
   cached.conn = await cached.promise;
