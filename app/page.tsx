@@ -2,34 +2,57 @@ import dbConnect from "@/lib/mongodb";
 import Product from "@/models/Product";
 import AddToCartButton from "@/components/AddToCartButton";
 import Link from "next/link";
+import SearchInput from "@/components/SearchInput";
 
 export const dynamic = "force-dynamic";
 
 const fmt = (price: number) => price.toLocaleString("cs-CZ") + "\u00a0Kč";
 
-export default async function Home() {
+export default async function Home({ searchParams }: { searchParams: Promise<{ q?: string }> }) {
   await dbConnect();
-  const products = await Product.find({}).sort({ createdAt: -1 });
+  
+  const { q } = await searchParams;
+  
+  const query = q 
+    ? { name: { $regex: q, $options: "i" } } 
+    : {};
+    
+  const products = await Product.find(query).sort({ createdAt: -1 });
 
   return (
     <div className="space-y-16">
       {/* Hero Section */}
-      <div className="relative overflow-hidden py-12 border-b border-gray-100">
-        <div className="relative z-10">
+      <div className="relative overflow-hidden py-12 border-b border-gray-100 flex flex-col md:flex-row md:items-end justify-between gap-8">
+        <div className="relative z-10 max-w-xl">
           <h1 className="text-5xl md:text-6xl font-black text-black uppercase tracking-tighter animate-fade-in-up">
             Katalog <span className="text-gray-300">2026</span>
           </h1>
-          <p className="mt-6 text-xl text-gray-500 max-w-xl font-medium leading-relaxed animate-fade-in-up stagger-1">
+          <p className="mt-6 text-xl text-gray-500 font-medium leading-relaxed animate-fade-in-up stagger-1">
             Objevte naši novou kolekci produktů navržených pro moderní životní styl. 
             Minimalistický design, maximální kvalita.
           </p>
         </div>
+        
+        <div className="w-full md:w-auto animate-fade-in-up stagger-2">
+            <SearchInput />
+        </div>
+
         <div className="absolute top-0 right-0 -mr-20 -mt-20 w-96 h-96 bg-gray-50 rounded-full blur-3xl -z-10 animate-pulse" />
       </div>
 
       {products.length === 0 ? (
         <div className="py-32 text-center border-2 border-dashed border-gray-100 rounded-3xl animate-scale-in">
-          <p className="text-gray-400 font-bold uppercase tracking-[0.3em]">Aktuálně nemáme žádné produkty</p>
+          <p className="text-gray-400 font-bold uppercase tracking-[0.3em]">
+            {q ? `Žádné produkty pro "${q}"` : "Aktuálně nemáme žádné produkty"}
+          </p>
+          {q && (
+            <Link 
+              href="/" 
+              className="mt-6 inline-block text-xs font-black uppercase tracking-widest text-black hover:underline"
+            >
+              Zrušit vyhledávání
+            </Link>
+          )}
         </div>
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-x-8 gap-y-16">
