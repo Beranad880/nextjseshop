@@ -1,36 +1,61 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Moderní E-shop s Next.js & MongoDB
 
-## Getting Started
+Tento projekt je komplexní webová aplikace pro e-shop postavená na nejnovějším frameworku **Next.js**. Obsahuje jak veřejnou část pro zákazníky, tak i plnohodnotné administrátorské rozhraní pro správu produktů a objednávek.
 
-First, run the development server:
+## 🚀 Hlavní Funkce
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+### Pro Zákazníky
+- **Katalog produktů:** Prohlížení nabízeného zboží.
+- **Nákupní košík:** Intuitivní správa položek v košíku s využitím React Context.
+- **Objednávkový systém:** Snadné vytvoření objednávky.
+- **Responsivní design:** Plně optimalizováno pro mobily, tablety i desktop.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Pro Administrátory (`/admin`)
+- **Správa produktů:** Kompletní CRUD operace (přidávání, úprava, mazání).
+- **Nahrávání obrázků:** Integrovaný systém pro upload produktových fotografií.
+- **Správa objednávek:** Přehled všech přijatých objednávek a možnost změny jejich stavu.
+- **Dashboard:** Rychlý přístup k nejdůležitějším sekcím webu.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 🛠️ Použité Technologie
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- **Framework:** [Next.js 15+ (App Router)](https://nextjs.org/)
+- **Frontend:** [React 19](https://react.dev/), [Tailwind CSS](https://tailwindcss.com/)
+- **Databáze:** [MongoDB](https://www.mongodb.com/) s využitím [Mongoose](https://mongoosejs.com/)
+- **Ikony:** [Lucide React](https://lucide.dev/)
+- **Jazyk:** [TypeScript](https://www.typescriptlang.org/)
 
-## Learn More
+## 📦 Instalace a Spuštění
 
-To learn more about Next.js, take a look at the following resources:
+1. **Klonování repozitáře:**
+   ```bash
+   git clone <url-vasho-repozitare>
+   cd my-app
+   ```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+2. **Instalace závislostí:**
+   ```bash
+   npm install
+   ```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+3. **Konfigurace prostředí:**
+   Vytvořte soubor `.env.local` v kořenovém adresáři a přidejte připojovací řetězec k vaší MongoDB:
+   ```env
+   MONGODB_URI=vase_mongodb_connection_string
+   ```
 
-## Deploy on Vercel
+4. **Spuštění vývojového serveru:**
+   ```bash
+   npm run dev
+   ```
+   Aplikace bude dostupná na [http://localhost:3000](http://localhost:3000).
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## 📂 Struktura Projektu
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- `app/` - Obsahuje stránky (routes), API endpointy a layouty.
+- `components/` - Znovupoužitelné UI komponenty (košík, formuláře, tlačítka).
+- `lib/` - Sdílená logika, konfigurace MongoDB a kontexty.
+- `models/` - Mongoose modely pro produkty a objednávky.
+- `public/` - Statické soubory a nahrané obrázky produktů.
+
+---
+Vytvořeno jako moderní ukázka e-commerce řešení.
