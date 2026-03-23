@@ -1,10 +1,16 @@
 import { NextResponse } from 'next/server';
 import dbConnect from '@/lib/mongodb';
 import Order from '@/models/Order';
+import { getSession } from '@/lib/session';
 
 type Context = { params: Promise<{ id: string }> };
 
 export async function PATCH(request: Request, { params }: Context) {
+  const session = await getSession();
+  if (!session) {
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+  }
+
   const { id } = await params;
   try {
     await dbConnect();
@@ -18,6 +24,11 @@ export async function PATCH(request: Request, { params }: Context) {
 }
 
 export async function DELETE(_request: Request, { params }: Context) {
+  const session = await getSession();
+  if (!session) {
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+  }
+
   const { id } = await params;
   await dbConnect();
   const order = await Order.findByIdAndDelete(id);

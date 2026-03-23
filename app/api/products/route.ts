@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import dbConnect from '@/lib/mongodb';
 import Product from '@/models/Product';
+import { getSession } from '@/lib/session';
 
 export async function GET() {
   await dbConnect();
@@ -9,10 +10,19 @@ export async function GET() {
 }
 
 export async function POST(request: Request) {
+  const session = await getSession();
+  if (!session) {
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+  }
+
   try {
     await dbConnect();
     const body = await request.json();
-    const product = await Product.create(body);
+    
+    // Whitelist fields for safety
+    const { name, description, price, image, category } = body;
+    const product = await Product.create({ name, description, price, image, category });
+    
     return NextResponse.json(product, { status: 201 });
   } catch (error) {
     return NextResponse.json({ error: (error as Error).message }, { status: 400 });

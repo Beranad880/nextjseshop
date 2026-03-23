@@ -2,8 +2,14 @@ import { NextResponse } from "next/server";
 import { GridFSBucket } from "mongodb";
 import mongoose from "mongoose";
 import dbConnect from "@/lib/mongodb";
+import { getSession } from "@/lib/session";
 
 export async function POST(request: Request) {
+  const session = await getSession();
+  if (!session) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
+
   const formData = await request.formData();
   const file = formData.get("file") as File | null;
 
