@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
-import { writeFile, mkdir } from "fs/promises";
-import { join } from "path";
+import { GridFSBucket } from "mongodb";
+import mongoose from "mongoose";
+import dbConnect from "@/lib/mongodb";
 
 export async function POST(request: Request) {
   const formData = await request.formData();
@@ -15,20 +16,31 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "Invalid file type" }, { status: 400 });
   }
 
-  const maxSize = 5 * 1024 * 1024; // 5 MB
+  const maxSize = 5 * 1024 * 1024;
   if (file.size > maxSize) {
     return NextResponse.json({ error: "File too large (max 5 MB)" }, { status: 400 });
   }
 
+  await dbConnect();
+
   const bytes = await file.arrayBuffer();
   const buffer = Buffer.from(bytes);
 
+  const db = mongoose.connection.db!;
+  const bucket = new GridFSBucket(db, { bucketName: "images" });
+
   const ext = file.name.split(".").pop()?.toLowerCase() ?? "jpg";
-  const filename = `${Date.now()}-${Math.random().toString(36).slice(2)}.${ext}`;
+  const filename = `${Date.now()}.${ext}`;
 
-  const uploadsDir = join(process.cwd(), "public", "uploads");
-  await mkdir(uploadsDir, { recursive: true });
-  await writeFile(join(uploadsDir, filename), buffer);
+  const uploadStream = bucket.openUploadStream(filename, {
+    metadata: { contentType: file.type },
+  });
 
-  return NextResponse.json({ url: `/uploads/${filename}` });
+  await new Promise<void>((resolve, reject) => {
+    uploadStream.on("finish", resolve);
+    uploadStream.on("error", reject);
+    uploadStream.end(buffer);
+  });
+
+  return NextResponse.json({ url: `/api/images/${uploadStream.id}` });
 }
