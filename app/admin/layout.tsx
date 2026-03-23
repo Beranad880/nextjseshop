@@ -1,5 +1,6 @@
 import Link from "next/link";
-import { Package, ClipboardList, LayoutDashboard, ArrowLeft } from "lucide-react";
+import { Package, ClipboardList, ArrowLeft, LogOut } from "lucide-react";
+import LogoutButton from "@/components/LogoutButton";
 
 export default function AdminLayout({
   children,
@@ -40,6 +41,7 @@ export default function AdminLayout({
             <ArrowLeft className="w-3.5 h-3.5 group-hover:-translate-x-1 transition-transform" />
             Zpět na web
           </Link>
+          <LogoutButton />
         </div>
       </aside>
 
