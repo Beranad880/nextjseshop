@@ -1,8 +1,9 @@
 import Link from "next/link";
-import { ShoppingBag, LayoutDashboard } from "lucide-react";
+import { ShoppingBag, LayoutDashboard, LogOut } from "lucide-react";
 import { CartProvider } from "@/lib/cartContext";
 import CartButton from "@/components/CartButton";
 import CartDrawer from "@/components/CartDrawer";
+import LogoutButton from "@/components/LogoutButton";
 import { getSession } from "@/lib/session";
 
 export default async function MainLayout({
@@ -47,13 +48,16 @@ export default async function MainLayout({
               <CartButton />
 
               {session && (
-                <Link
-                  href="/admin"
-                  className="flex items-center gap-2 px-5 py-2.5 bg-black text-white text-[11px] font-black uppercase tracking-widest rounded-xl hover:bg-blue-600 hover:shadow-lg hover:shadow-blue-200 transition-all duration-300 active:scale-95"
-                >
-                  <LayoutDashboard className="w-4 h-4" />
-                  <span className="hidden sm:inline">Panel</span>
-                </Link>
+                <>
+                  <Link
+                    href="/admin"
+                    className="flex items-center gap-2 px-5 py-2.5 bg-black text-white text-[11px] font-black uppercase tracking-widest rounded-xl hover:bg-blue-600 hover:shadow-lg hover:shadow-blue-200 transition-all duration-300 active:scale-95"
+                  >
+                    <LayoutDashboard className="w-4 h-4" />
+                    <span className="hidden sm:inline">Panel</span>
+                  </Link>
+                  <LogoutButton variant="icon" />
+                </>
               )}
             </div>
           </nav>
