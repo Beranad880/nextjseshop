@@ -1,8 +1,9 @@
+"use client";
+
 import { useState, useEffect } from "react";
 import { useCart } from "@/lib/cartContext";
 import Link from "next/link";
 import { ArrowLeft, Loader2, ShoppingBag } from "lucide-react";
-import Head from "next/head";
 
 const fmt = (price: number) => price.toLocaleString("cs-CZ") + "\u00a0Kč";
 
@@ -59,14 +60,9 @@ export default function CheckoutPage() {
     }
   };
 
-  // Success screen
   if (done) {
     return (
-      <>
-        <Head>
-          <title>Objednávka přijata | Internetový obchod</title>
-        </Head>
-        <div className="max-w-lg mx-auto py-24 text-center space-y-8">
+      <div className="max-w-lg mx-auto py-24 text-center space-y-8">
         <div className="w-20 h-20 rounded-full bg-green-50 flex items-center justify-center mx-auto">
           <svg className="w-10 h-10 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
             <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
@@ -87,17 +83,11 @@ export default function CheckoutPage() {
           Zpět do obchodu
         </Link>
       </div>
-      </>
     );
   }
 
-  // Empty cart guard (after hydration)
   if (mounted && items.length === 0) {
     return (
-      <>
-      <Head>
-        <title>Košík je prázdný | Internetový obchod</title>
-      </Head>
       <div className="max-w-lg mx-auto py-24 text-center space-y-6">
         <ShoppingBag className="w-14 h-14 text-gray-200 mx-auto" />
         <p className="text-sm font-black uppercase tracking-widest text-gray-400">Košík je prázdný</p>
@@ -108,20 +98,14 @@ export default function CheckoutPage() {
           Prohlédnout katalog
         </Link>
       </div>
-      </>
     );
   }
 
-  const shipping = 0; // zdarma
+  const shipping = 0;
   const itemCount = items.reduce((s, i) => s + i.quantity, 0);
 
   return (
-    <>
-    <Head>
-      <title>Objednávka | Internetový obchod</title>
-    </Head>
     <div className="space-y-10 pb-20">
-      {/* Page title */}
       <div className="space-y-4 border-b border-gray-100 pb-8">
         <Link
           href="/"
@@ -134,7 +118,6 @@ export default function CheckoutPage() {
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-[1fr_420px] gap-12">
-        {/* ── Left: form ── */}
         <form id="checkout-form" onSubmit={handleSubmit} className="space-y-8">
           <section className="space-y-5">
             <h2 className="text-xs font-black uppercase tracking-[0.18em] text-gray-400 border-b border-gray-100 pb-3">
@@ -166,7 +149,6 @@ export default function CheckoutPage() {
             </div>
           </section>
 
-          {/* Submit – visible on mobile at bottom, on desktop inside form */}
           <div className="lg:hidden">
             <button
               type="submit"
@@ -178,10 +160,8 @@ export default function CheckoutPage() {
           </div>
         </form>
 
-        {/* ── Right: recap ── */}
         <aside className="space-y-6">
           <div className="border border-gray-200 bg-gray-50/50">
-            {/* Items */}
             <div className="divide-y divide-gray-100">
               {mounted && items.map((item) => (
                 <div key={item.productId} className="flex gap-4 px-5 py-4">
@@ -196,8 +176,6 @@ export default function CheckoutPage() {
                 </div>
               ))}
             </div>
-
-            {/* Totals */}
             <div className="border-t border-gray-200 px-5 py-4 space-y-2.5 bg-white">
               <div className="flex justify-between text-sm text-gray-500">
                 <span>Mezisoučet ({itemCount} ks)</span>
@@ -214,14 +192,13 @@ export default function CheckoutPage() {
             </div>
           </div>
 
-          {/* Submit – visible only on desktop */}
           <button
             form="checkout-form"
             type="submit"
             disabled={sending || !mounted || items.length === 0}
             className="hidden lg:flex w-full py-4 bg-black text-white text-sm font-black uppercase tracking-[0.18em] hover:bg-gray-800 transition-colors disabled:bg-gray-200 disabled:text-gray-400 items-center justify-center gap-2"
           >
-            {sending ? <Loader2 className="w-4 h-4 animate-spin" /> : `Potvrdit objednávku`}
+            {sending ? <Loader2 className="w-4 h-4 animate-spin" /> : "Potvrdit objednávku"}
           </button>
 
           <p className="text-xs text-gray-400 text-center">
@@ -231,6 +208,5 @@ export default function CheckoutPage() {
         </aside>
       </div>
     </div>
-    </>
   );
 }

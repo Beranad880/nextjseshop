@@ -5,21 +5,17 @@ import { decrypt } from "@/lib/session";
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
-  // Login page is always accessible
-  if (pathname === "/admin/login") {
-    return NextResponse.next();
+  const cookie = request.cookies.get("admin-session")?.value;
+  const session = await decrypt(cookie);
+
+  // Already logged in → redirect away from login page
+  if (pathname === "/admin/login" && session) {
+    return NextResponse.redirect(new URL("/admin", request.url));
   }
 
-  // Protect all /admin routes
-  if (pathname.startsWith("/admin")) {
-    const cookie = request.cookies.get("admin-session")?.value;
-    const session = await decrypt(cookie);
-
-    if (!session) {
-      const loginUrl = new URL("/admin/login", request.url);
-      loginUrl.searchParams.set("from", pathname);
-      return NextResponse.redirect(loginUrl);
-    }
+  // Not logged in → redirect to login
+  if (pathname !== "/admin/login" && pathname.startsWith("/admin") && !session) {
+    return NextResponse.redirect(new URL("/admin/login", request.url));
   }
 
   return NextResponse.next();

@@ -3,10 +3,13 @@ import { ShoppingBag, LayoutDashboard } from "lucide-react";
 import { CartProvider } from "@/lib/cartContext";
 import CartButton from "@/components/CartButton";
 import CartDrawer from "@/components/CartDrawer";
+import { getSession } from "@/lib/session";
 
-export default function MainLayout({
+export default async function MainLayout({
   children,
 }: { children: React.ReactNode }) {
+  const session = await getSession();
+
   return (
     <div className="bg-white text-black min-h-screen flex flex-col antialiased selection:bg-black selection:text-white">
       <CartProvider>
@@ -42,14 +45,16 @@ export default function MainLayout({
               <div className="h-6 w-px bg-gray-200 hidden sm:block mx-2" />
               
               <CartButton />
-              
-              <Link
-                href="/admin"
-                className="flex items-center gap-2 px-5 py-2.5 bg-black text-white text-[11px] font-black uppercase tracking-widest rounded-xl hover:bg-blue-600 hover:shadow-lg hover:shadow-blue-200 transition-all duration-300 active:scale-95"
-              >
-                <LayoutDashboard className="w-4 h-4" />
-                <span className="hidden sm:inline">Panel</span>
-              </Link>
+
+              {session && (
+                <Link
+                  href="/admin"
+                  className="flex items-center gap-2 px-5 py-2.5 bg-black text-white text-[11px] font-black uppercase tracking-widest rounded-xl hover:bg-blue-600 hover:shadow-lg hover:shadow-blue-200 transition-all duration-300 active:scale-95"
+                >
+                  <LayoutDashboard className="w-4 h-4" />
+                  <span className="hidden sm:inline">Panel</span>
+                </Link>
+              )}
             </div>
           </nav>
         </header>

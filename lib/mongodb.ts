@@ -1,10 +1,12 @@
 import mongoose from 'mongoose';
 
-const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017/eshopnextjs';
+const MONGODB_URI = process.env.MONGODB_URI;
 
 if (!MONGODB_URI) {
   throw new Error('Please define the MONGODB_URI environment variable');
 }
+
+const uri: string = MONGODB_URI;
 
 let cached = (global as any).mongoose;
 
@@ -22,8 +24,8 @@ async function dbConnect() {
       bufferCommands: false,
     };
 
-    cached.promise = mongoose.connect(MONGODB_URI, opts).then((mongoose) => {
-      console.log("✅ MongoDB connected successfully to:", MONGODB_URI.split('@').pop());
+    cached.promise = mongoose.connect(uri, opts).then((mongoose) => {
+      console.log("✅ MongoDB connected successfully to:", uri.split('@').pop());
       return mongoose;
     }).catch((err) => {
       console.error("❌ MongoDB connection error:", err.message);

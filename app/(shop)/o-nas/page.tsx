@@ -1,5 +1,4 @@
 import { ShoppingBag, Package, Truck, HeartHandshake } from "lucide-react";
-import Head from "next/head";
 
 const values = [
   {
@@ -27,13 +26,7 @@ const team = [
 
 export default function AboutPage() {
   return (
-    <>
-      <Head>
-        <title>O nás | Internetový obchod</title>
-        <meta name="description" content="Kdo jsme a co nás pohání" />
-      </Head>
-      <div className="space-y-24 pb-20">
-      {/* Hero */}
+    <div className="space-y-24 pb-20">
       <section className="border-b border-gray-100 pb-16 space-y-6">
         <p className="text-[11px] font-black uppercase tracking-[0.3em] text-gray-400">O nás</p>
         <h1 className="text-5xl md:text-6xl font-black uppercase tracking-tighter leading-none">
@@ -45,7 +38,6 @@ export default function AboutPage() {
         </p>
       </section>
 
-      {/* Story */}
       <section className="grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
         <div className="space-y-6">
           <h2 className="text-3xl font-black uppercase tracking-tight">Náš příběh</h2>
@@ -66,7 +58,6 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* Values */}
       <section className="space-y-10">
         <h2 className="text-3xl font-black uppercase tracking-tight">Naše hodnoty</h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -82,7 +73,6 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* Team */}
       <section className="space-y-10">
         <h2 className="text-3xl font-black uppercase tracking-tight">Tým</h2>
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-8">
@@ -100,7 +90,6 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* Stats */}
       <section className="grid grid-cols-2 md:grid-cols-4 gap-px bg-gray-100 border border-gray-100 rounded-2xl overflow-hidden">
         {[
           { value: "2 400+", label: "Spokojených zákazníků" },
@@ -115,6 +104,5 @@ export default function AboutPage() {
         ))}
       </section>
     </div>
-    </>
   );
 }
