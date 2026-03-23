@@ -28,7 +28,7 @@ export default async function MainLayout({
               <div className="bg-black text-white p-1.5 rounded-lg group-hover:rotate-12 transition-transform duration-500">
                 <ShoppingBag className="w-6 h-6" />
               </div>
-              <span className="hidden sm:block">Obchod</span>
+              <span className="hidden sm:block">PokoShop</span>
             </Link>
 
             <div className="flex items-center gap-3 sm:gap-6">

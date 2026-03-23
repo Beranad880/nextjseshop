@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Moderní Obchod | 2026",
+  title: "PokoShop",
   description: "Exkluzivní výběr prémiových produktů",
 };
 
