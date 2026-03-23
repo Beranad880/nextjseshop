@@ -8,18 +8,18 @@ export default function SearchInput() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [isPending, startTransition] = useTransition();
-  const [query, setQuery] = useState(searchParams.get("q") || "");
+  const [query, setQuery] = useState(searchParams?.get("q") || "");
 
   // Update local state when URL changes (e.g. browser back button)
   useEffect(() => {
-    setQuery(searchParams.get("q") || "");
+    setQuery(searchParams?.get("q") || "");
   }, [searchParams]);
 
   const handleSearch = (value: string) => {
     setQuery(value);
-    
+
     startTransition(() => {
-      const params = new URLSearchParams(searchParams.toString());
+      const params = new URLSearchParams(searchParams?.toString() ?? "");
       if (value) {
         params.set("q", value);
       } else {
