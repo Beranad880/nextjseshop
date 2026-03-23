@@ -4,7 +4,6 @@ import AddToCartButton from "@/components/AddToCartButton";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { ArrowLeft, ShieldCheck, Truck, RefreshCcw } from "lucide-react";
-import Head from "next/head";
 
 const fmt = (price: number) => price.toLocaleString("cs-CZ") + "\u00a0Kč";
 
