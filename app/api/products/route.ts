@@ -20,8 +20,8 @@ export async function POST(request: Request) {
     const body = await request.json();
     
     // Whitelist fields for safety
-    const { name, description, price, image, category } = body;
-    const product = await Product.create({ name, description, price, image, category });
+    const { name, slug, description, price, image, category } = body;
+    const product = await Product.create({ name, slug, description, price, image, category });
     
     return NextResponse.json(product, { status: 201 });
   } catch (error) {

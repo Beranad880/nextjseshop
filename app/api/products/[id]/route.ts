@@ -25,8 +25,8 @@ export async function PUT(request: Request, { params }: Context) {
     const body = await request.json();
     
     // Whitelist fields for safety
-    const { name, description, price, image, category } = body;
-    const updateData = { name, description, price, image, category };
+    const { name, slug, description, price, image, category } = body;
+    const updateData = { name, slug, description, price, image, category };
 
     const product = await Product.findByIdAndUpdate(id, updateData, { new: true, runValidators: true });
     if (!product) return NextResponse.json({ error: 'Product not found' }, { status: 404 });

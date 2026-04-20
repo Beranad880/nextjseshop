@@ -9,6 +9,7 @@ interface ProductFormProps {
   initialData?: {
     _id?: string;
     name: string;
+    slug: string;
     description: string;
     price: number;
     image: string;
@@ -28,11 +29,32 @@ export default function ProductForm({ initialData, isEdit }: ProductFormProps) {
 
   const [formData, setFormData] = useState({
     name: initialData?.name ?? "",
+    slug: initialData?.slug ?? "",
     description: initialData?.description ?? "",
     price: initialData?.price ?? 0,
     image: initialData?.image ?? "",
     category: initialData?.category ?? "",
   });
+
+  const generateSlug = (name: string) => {
+    return name
+      .toLowerCase()
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "")
+      .replace(/[^a-z0-9]+/g, "-")
+      .replace(/^-+|-+$/g, "");
+  };
+
+  const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const name = e.target.value;
+    setFormData((prev) => {
+      const newData = { ...prev, name };
+      if (!isEdit || !prev.slug) {
+        newData.slug = generateSlug(name);
+      }
+      return newData;
+    });
+  };
 
   const uploadFile = async (file: File) => {
     setUploading(true);
@@ -114,8 +136,20 @@ export default function ProductForm({ initialData, isEdit }: ProductFormProps) {
               required
               type="text"
               value={formData.name}
-              onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+              onChange={handleNameChange}
               placeholder="např. Klasické bílé tričko"
+              className={inputClass}
+            />
+          </div>
+
+          <div className="space-y-1.5">
+            <label className="field-label">Slug (URL adresa)</label>
+            <input
+              required
+              type="text"
+              value={formData.slug}
+              onChange={(e) => setFormData({ ...formData, slug: e.target.value })}
+              placeholder="klasicke-bile-tricko"
               className={inputClass}
             />
           </div>

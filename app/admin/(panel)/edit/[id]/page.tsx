@@ -21,6 +21,7 @@ export default async function EditProductPage({ params }: EditProductPageProps) 
   const productData = {
     _id: product._id.toString(),
     name: product.name,
+    slug: product.slug,
     description: product.description,
     price: product.price,
     image: product.image,
