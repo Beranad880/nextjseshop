@@ -19,9 +19,7 @@ const values = [
 ];
 
 const team = [
-  { name: "Anna Novotná", role: "Zakladatelka & CEO", initials: "AN" },
-  { name: "Tomáš Krejčí", role: "Produktový manažer", initials: "TK" },
-  { name: "Markéta Horáková", role: "Zákaznická péče", initials: "MH" },
+  { name: "Adam Pokorný", role: "Zakladatel", initials: "AP" },
 ];
 
 export default function AboutPage() {

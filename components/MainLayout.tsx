@@ -31,8 +31,8 @@ export default async function MainLayout({
               <span className="hidden sm:block">PokoShop</span>
             </Link>
 
-            <div className="flex items-center gap-3 sm:gap-6">
-              <nav className="hidden md:flex items-center gap-8 text-[11px] font-black tracking-widest uppercase">
+            <div className="flex items-center gap-4 sm:gap-6">
+              <nav className="flex items-center gap-4 sm:gap-8 text-[11px] font-black tracking-widest uppercase">
                 <Link href="/" className="hover:text-blue-600 transition-colors relative group">
                   Katalog
                   <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-blue-600 transition-all duration-300 group-hover:w-full" />
@@ -43,7 +43,7 @@ export default async function MainLayout({
                 </Link>
               </nav>
 
-              <div className="h-6 w-px bg-gray-200 hidden sm:block mx-2" />
+              <div className="h-6 w-px bg-gray-200 mx-1 sm:mx-2" />
               
               <CartButton />
 
