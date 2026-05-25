@@ -11,6 +11,18 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "Vyplňte všechna pole" }, { status: 400 });
   }
 
+  // 1. Check environment variables if defined
+  const envUsername = process.env.ADMIN_USERNAME;
+  const envPassword = process.env.ADMIN_PASSWORD;
+
+  if (envUsername && envPassword) {
+    if (username === envUsername && password === envPassword) {
+      await createSession();
+      return NextResponse.json({ success: true });
+    }
+  }
+
+  // 2. Fallback to MongoDB
   await dbConnect();
   const admin = await Admin.findOne({ username });
 
